@@ -43,9 +43,9 @@
         </div>
         <p data-ng-hide="addMode"><a data-ng-click="toggleAdd()" href="javascript:;" class="btn btn-primary">Register Vehicle</a></p>
         <form name="addVehicle" data-ng-show="addMode" style="width: 300px; margin: 0px auto;">
-            <label style="width:150px;">Vehicle Number:</label><input type="text" data-ng-model="newvhl.VEHICLE_NUMBER" required /><br />
-            <label style="width:150px;">Vehicle Owner:</label><input type="text" data-ng-model="newvhl.VEHICLE_OWNER" required /><br />
-            <label style="width:150px;">Vehicle Model:</label>@*<input type="text" data-ng-model="newvhl.VEHICLE_MODEL" required />*@
+            <label>Vehicle Number:</label><input type="text" data-ng-model="newvhl.VEHICLE_NUMBER" required /><br />
+            <label>Vehicle Owner:</label><input type="text" data-ng-model="newvhl.VEHICLE_OWNER" required /><br />
+            <label>Vehicle Model:</label>@*<input type="text" data-ng-model="newvhl.VEHICLE_MODEL" required />*@
 
             <select ng-model="newvhl.VEHICLE_MODEL">
                 <option value="" selected>Select</option>
