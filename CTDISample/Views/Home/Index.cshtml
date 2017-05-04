@@ -1,0 +1,120 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html data-ng-app="app" id="ng-app" lang="sv">
+<head>
+    <title>Vehicle App</title>
+    <script src="http://code.angularjs.org/1.0.6/angular.min.js"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    @*<link href="~/Content/Site.css" rel="stylesheet" />*@
+    <script type="text/javascript" src="~/Content/VehicleController.js"></script>
+    <style>
+        #mydiv {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1000;
+            background-color: grey;
+            opacity: .8;
+        }
+
+        .ajax-loader {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            margin-left: -32px; /* -1 * image width / 2 */
+            margin-top: -32px; /* -1 * image height / 2 */
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div data-ng-controller="VehicleController" class="container">
+        <h2>Vehicles</h2>
+        <strong class="error">{{ error }}</strong>
+        <div id="mydiv" data-ng-show="loading">
+            <img src="Images/482.gif" class="ajax-loader" />
+        </div>
+        <p data-ng-hide="addMode"><a data-ng-click="toggleAdd()" href="javascript:;" class="btn btn-primary">Register Vehicle</a></p>
+        <form name="addVehicle" data-ng-show="addMode" style="width: 300px; margin: 0px auto;">
+            <label style="width:150px;">Vehicle Number:</label><input type="text" data-ng-model="newvhl.VEHICLE_NUMBER" required /><br />
+            <label style="width:150px;">Vehicle Owner:</label><input type="text" data-ng-model="newvhl.VEHICLE_OWNER" required /><br />
+            <label style="width:150px;">Vehicle Model:</label>@*<input type="text" data-ng-model="newvhl.VEHICLE_MODEL" required />*@
+
+            <select ng-model="newvhl.VEHICLE_MODEL">
+                <option value="" selected>Select</option>
+                <option ng-repeat="x in cars" value="{{x.model}}">{{x.model}}</option>
+            </select>
+
+            <br />
+            <input type="submit" value="Add" data-ng-click="add()" data-ng-disabled="!addVehicle.$valid" class="btn btn-primary" />
+            <input type="button" value="Cancel" data-ng-click="toggleAdd()" class="btn btn-primary" />
+            <br />
+            <br />
+        </form>
+        <table class="table table-bordered table-hover" style="width: 800px">
+            <tr>
+                <th>#</th>
+                <th>Vehicle Number</th>
+                <th>Vehicle Owner</th>
+                <th>Vehicle Model</th>
+                <th></th>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <input type="text" data-ng-model="search.VEHICLE_NUMBER" placeholder="search Vehicle" />
+                </td>
+                <td>
+                    <input type="text" data-ng-model="search.VEHICLE_OWNER" placeholder="search Vehicle" />
+                </td>
+                <td>
+                    @*<input type="text" data-ng-model="search.VEHICLE_MODEL" placeholder="search" />*@
+
+                    <select ng-model="search.VEHICLE_MODEL">
+                        <option value="" selected>Select Model</option>
+                        <option ng-repeat="x in cars" value="{{x.model}}">{{x.model}}</option>
+                    </select>
+                </td>
+                <td></td>
+            </tr>
+
+            <tr data-ng-repeat="vehicle in vehicles | filter:search">
+                <td><strong data-ng-hide="vehicle.editMode">{{ vehicle.VEHICLE_ID }}</strong></td>
+                <td>
+                    <p data-ng-hide="vehicle.editMode">{{ vehicle.VEHICLE_NUMBER }}</p>
+                    <p data-ng-show="vehicle.editMode">
+                        <input type="text" data-ng-model="vehicle.VEHICLE_NUMBER" />
+                    </p>
+                </td>
+                <td>
+                    <p data-ng-hide="vehicle.editMode">{{ vehicle.VEHICLE_OWNER }}</p>
+                    <input data-ng-show="vehicle.editMode" type="text" data-ng-model="vehicle.VEHICLE_OWNER" />
+                </td>
+                <td>
+                    <p data-ng-hide="vehicle.editMode">{{ vehicle.VEHICLE_MODEL }}</p>
+                    @*<input data-ng-show="vehicle.editMode" type="text" data-ng-model="vehicle.VEHICLE_MODEL" />*@
+
+                    <select ng-model="vehicle.VEHICLE_MODEL" data-ng-show="vehicle.editMode">
+                        <option ng-repeat="x in cars" value="{{x.model}}">{{x.model}}</option>
+                    </select>
+                </td>
+                <td>
+                    <p data-ng-hide="vehicle.editMode"><a data-ng-click="toggleEdit(vehicle)" href="javascript:;">Edit</a> | <a data-ng-click="delvehicle(vehicle)" href="javascript:;">Delete</a></p>
+                    <p data-ng-show="vehicle.editMode"><a data-ng-click="save(vehicle)" href="javascript:;">Save</a> | <a data-ng-click="toggleEdit(vehicle)" href="javascript:;">Cancel</a></p>
+                </td>
+            </tr>
+        </table>
+        <hr />
+    </div>
+
+ 
+
+</body>
+</html>
